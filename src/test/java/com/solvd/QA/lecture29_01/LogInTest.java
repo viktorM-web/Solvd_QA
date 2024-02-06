@@ -8,8 +8,7 @@ import org.testng.annotations.Test;
 public class LogInTest {
 
     @BeforeSuite
-    public void setup(){
-
+    public void setup() {
     }
 
     @DataProvider(name = "validCredentials")
