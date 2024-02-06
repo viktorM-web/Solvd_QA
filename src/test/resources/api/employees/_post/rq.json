@@ -1,0 +1,5 @@
+{
+  "name": "${employee.name}",
+  "salary": "${employee.salary}",
+  "age": "${employee.age}"
+}
