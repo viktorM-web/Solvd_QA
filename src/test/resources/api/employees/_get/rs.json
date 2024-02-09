@@ -1,0 +1,11 @@
+{
+  "status": "type:String",
+  "data": {
+    "id": "predicate:idPredicate",
+    "employee_name": "${employee.name}",
+    "employee_salary": "predicate:salaryPredicate",
+    "employee_age": "predicate:agePredicate",
+    "profile_image": "skip"
+  },
+  "message": "skip"
+}
