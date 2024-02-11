@@ -1,14 +1,18 @@
 package com.solvd.QA.homework_09_02.web;
 
+import com.solvd.QA.homework_09_02.domain.Item;
 import com.solvd.QA.homework_09_02.domain.User;
 import com.solvd.QA.homework_09_02.pages.MainPage;
+import com.solvd.QA.homework_09_02.pages.SearchPage;
 import com.solvd.QA.homework_09_02.pages.components.LoginWindow;
+import com.solvd.QA.lecture05_02.web.components.ProductCard;
 import com.zebrunner.carina.core.AbstractTest;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.util.List;
 import java.util.Optional;
 
 public class WebTest extends AbstractTest {
@@ -17,9 +21,6 @@ public class WebTest extends AbstractTest {
     public void verifyValidLoginAndLogoutTest() {
         SoftAssert sa = new SoftAssert();
         MainPage mainPage = getMainPage();
-
-        Assert.assertTrue(mainPage.getCookiesWindow().getAcceptCookiesButton().isPresent());
-        mainPage.acceptCookies();
 
         LoginWindow loginWindow = mainPage.getLoginWindow();
 
@@ -49,9 +50,6 @@ public class WebTest extends AbstractTest {
         SoftAssert sa = new SoftAssert();
         MainPage mainPage = getMainPage();
 
-        Assert.assertTrue(mainPage.getCookiesWindow().getAcceptCookiesButton().isPresent());
-        mainPage.acceptCookies();
-
         LoginWindow loginWindow = mainPage.getLoginWindow();
 
         Assert.assertTrue(loginWindow.getLoginButton().isPresent());
@@ -70,10 +68,33 @@ public class WebTest extends AbstractTest {
 
     }
 
+    /**
+     Проверка поиска (Выполнить поиск и проверить, что найденные товары соответствуют)
+     */
+
+    @Test(description = "Verify search")
+    public void verifySearchingLineTest() {
+        SoftAssert sa = new SoftAssert();
+        MainPage  mainPage = getMainPage();
+
+        SearchPage searchPage = mainPage.getSearchPageBy("apple");
+
+        Assert.assertTrue(searchPage.isPageOpened());
+
+        List<Item> allItemFromPage = searchPage.getAllItemFromPage();
+
+        allItemFromPage.forEach(item->{
+            Assert.assertTrue(item.getName().toLowerCase().contains("apple"));
+        });
+    }
+
     private MainPage getMainPage() {
         MainPage mainPage = new MainPage(getDriver());
         mainPage.open();
         Assert.assertTrue(mainPage.isPageOpened(40));
+
+        Assert.assertTrue(mainPage.getCookiesWindow().getAcceptCookiesButton().isPresent());
+        mainPage.acceptCookies();
         return mainPage;
     }
 }

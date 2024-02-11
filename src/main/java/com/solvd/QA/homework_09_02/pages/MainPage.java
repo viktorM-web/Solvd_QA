@@ -14,6 +14,12 @@ import java.util.Optional;
 
 public class MainPage extends AbstractPage {
 
+    @FindBy(xpath = "//button[@class='Search_searchBtn__Tk7Gw']")
+    private ExtendedWebElement buttonStartSearchByInputSearchRow;
+
+    @FindBy(xpath = "//input[@class='Search_searchInput__RoV1W']")
+    private ExtendedWebElement inputSearchRow;
+
     @FindBy(xpath = "//header[@id='header']")
     private ExtendedWebElement header;
 
@@ -39,6 +45,13 @@ public class MainPage extends AbstractPage {
     @Override
     public void open() {
         openURL(Configuration.getRequired("home_url"));
+    }
+
+    public SearchPage getSearchPageBy(String keyWord){
+        inputSearchRow.type(keyWord);
+        buttonStartSearchByInputSearchRow.isPresent(30);
+        buttonStartSearchByInputSearchRow.click(30);
+        return new SearchPage(driver);
     }
 
     public LoginWindow getLoginWindow() {
