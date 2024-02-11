@@ -1,0 +1,84 @@
+package com.solvd.QA.homework_09_02.pages;
+
+import com.solvd.QA.homework_09_02.pages.components.AccountWindow;
+import com.solvd.QA.homework_09_02.pages.components.CookiesWindow;
+import com.solvd.QA.homework_09_02.pages.components.LoginWindow;
+import com.zebrunner.carina.utils.config.Configuration;
+import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
+import com.zebrunner.carina.webdriver.gui.AbstractPage;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.FindBy;
+
+import java.util.Optional;
+
+public class MainPage extends AbstractPage {
+
+    @FindBy(xpath = "//header[@id='header']")
+    private ExtendedWebElement header;
+
+    @FindBy(xpath = "//button[@class='styles_userToolsToggler__c2aHe']")
+    private ExtendedWebElement accountDisplayButton;
+
+    @FindBy(xpath = "//*")
+    private AccountWindow accountWindow;
+
+    @FindBy(xpath = "//*")
+    private LoginWindow loginWindow;
+
+    @FindBy(xpath = "//*")
+    private CookiesWindow cookiesWindow;
+
+
+    public MainPage(WebDriver driver) {
+        super(driver);
+        setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
+        setUiLoadedMarker(header);
+    }
+
+    @Override
+    public void open() {
+        openURL(Configuration.getRequired("home_url"));
+    }
+
+    public LoginWindow getLoginWindow() {
+        accountDisplayButton.click();
+        accountWindow.getEnterButton().click();
+        return loginWindow;
+    }
+
+    public AccountWindow getAccountWindow(){
+        return accountWindow;
+    }
+
+    public MainPage logout() {
+        if (accountWindow.getLogoutButton().isPresent()) {
+            accountWindow.getLogoutButton().click();;
+            return this;
+        }
+        return this;
+    }
+
+    public MainPage acceptCookies(){
+        cookiesWindow.getAcceptCookiesButton().click();
+        return this;
+    }
+
+    public CookiesWindow getCookiesWindow() {
+        return cookiesWindow;
+    }
+
+    public ExtendedWebElement getAccountDisplayButton() {
+        return accountDisplayButton;
+    }
+
+    public Optional<ExtendedWebElement> getErrorMassage(){
+        if (loginWindow.getEmailErrorMessage().isPresent()){
+            return Optional.of(loginWindow.getEmailErrorMessage());
+        }else if (loginWindow.getPassErrorMessage().isPresent()) {
+            return Optional.of(loginWindow.getPassErrorMessage());
+        }else{
+            return Optional.empty();
+        }
+    }
+}
