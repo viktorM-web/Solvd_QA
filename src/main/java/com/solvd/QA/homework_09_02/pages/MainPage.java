@@ -9,12 +9,13 @@ import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.Optional;
 
 public class MainPage extends AbstractPage {
 
-    @FindBy(xpath = "//button[@class='Search_searchBtn__Tk7Gw']")
+    @FindBy(xpath = "//div[@class='Search_searchInputContainer__rDgxi']//button")
     private ExtendedWebElement buttonStartSearchByInputSearchRow;
 
     @FindBy(xpath = "//input[@class='Search_searchInput__RoV1W']")
@@ -49,8 +50,8 @@ public class MainPage extends AbstractPage {
 
     public SearchPage getSearchPageBy(String keyWord){
         inputSearchRow.type(keyWord);
-        buttonStartSearchByInputSearchRow.isPresent(30);
-        buttonStartSearchByInputSearchRow.click(30);
+        Assert.assertTrue(buttonStartSearchByInputSearchRow.isPresent());
+        buttonStartSearchByInputSearchRow.click();
         return new SearchPage(driver);
     }
 

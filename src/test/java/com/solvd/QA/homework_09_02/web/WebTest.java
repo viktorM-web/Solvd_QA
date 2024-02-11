@@ -2,10 +2,10 @@ package com.solvd.QA.homework_09_02.web;
 
 import com.solvd.QA.homework_09_02.domain.Item;
 import com.solvd.QA.homework_09_02.domain.User;
+import com.solvd.QA.homework_09_02.pages.ItemPage;
 import com.solvd.QA.homework_09_02.pages.MainPage;
 import com.solvd.QA.homework_09_02.pages.SearchPage;
 import com.solvd.QA.homework_09_02.pages.components.LoginWindow;
-import com.solvd.QA.lecture05_02.web.components.ProductCard;
 import com.zebrunner.carina.core.AbstractTest;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.testng.Assert;
@@ -68,14 +68,10 @@ public class WebTest extends AbstractTest {
 
     }
 
-    /**
-     Проверка поиска (Выполнить поиск и проверить, что найденные товары соответствуют)
-     */
-
     @Test(description = "Verify search")
     public void verifySearchingLineTest() {
         SoftAssert sa = new SoftAssert();
-        MainPage  mainPage = getMainPage();
+        MainPage mainPage = getMainPage();
 
         SearchPage searchPage = mainPage.getSearchPageBy("apple");
 
@@ -83,9 +79,26 @@ public class WebTest extends AbstractTest {
 
         List<Item> allItemFromPage = searchPage.getAllItemFromPage();
 
-        allItemFromPage.forEach(item->{
+        allItemFromPage.forEach(item -> {
             Assert.assertTrue(item.getName().toLowerCase().contains("apple"));
         });
+    }
+
+    @Test
+    public void verifyCartItems() {
+        SoftAssert sa = new SoftAssert();
+        MainPage mainPage = getMainPage();
+
+        SearchPage searchPage = mainPage.getSearchPageBy("apple");
+        Assert.assertTrue(searchPage.isPageOpened());
+        Item itemFromPageBy = searchPage.getItemFromPageBy(9);
+        ItemPage itemPage = searchPage.goToItemPage(9);
+        Assert.assertTrue(itemPage.isPageOpened());
+        Item itemFromItemPage = itemPage.getItem();
+
+        Assert.assertEquals(itemFromItemPage, itemFromPageBy,
+                "Item's data from item's page and search page not equals");
+
     }
 
     private MainPage getMainPage() {

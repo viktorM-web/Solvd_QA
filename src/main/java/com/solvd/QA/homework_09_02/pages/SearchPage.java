@@ -5,7 +5,9 @@ import com.solvd.QA.homework_09_02.pages.components.ItemBlock;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.LinkedList;
@@ -32,6 +34,20 @@ public class SearchPage extends AbstractPage {
             result.addAll(items);
         }
         return result;
+    }
+
+    public Item getItemFromPageBy(Integer index){
+       return getAllItemFromPage().get(index-1);
+    }
+
+    public ItemPage goToItemPage(Integer index){
+        Integer indexBlock = index/4;
+        Integer indexItemInBlock = index%4==0? 4: index%4-1;
+        ItemBlock itemBlock = blockList.get(indexBlock);
+        ExtendedWebElement element = itemBlock.getResultItem().get(indexItemInBlock);
+        WebElement referenceToItemPage = element.findElement(By.xpath(".//a[@data-ga_action='GoToItem']"));
+        referenceToItemPage.click();
+        return new ItemPage(driver);
     }
 
 

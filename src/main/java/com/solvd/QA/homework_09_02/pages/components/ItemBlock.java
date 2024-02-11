@@ -10,10 +10,11 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ItemBlock extends AbstractUIObject {
 
-    @FindBy(xpath = ".//li[@class='result__item cr-result__simple cr-result__first  g-box_lseparator']")
+    @FindBy(xpath = ".//li [contains(@class, 'result__item cr-result__simple')]")
     private List<ExtendedWebElement> resultItem;
 
     public ItemBlock(WebDriver driver) {
@@ -23,9 +24,19 @@ public class ItemBlock extends AbstractUIObject {
     public List<Item> getItems() {
         List<Item> result = new LinkedList<>();
         for (ExtendedWebElement element : resultItem) {
-            String nameItem = element.findElement(By.xpath("//span[@class='result__name']")).getText();
-            String price = element.findElement(By.xpath("//span[@data-code='7116374']")).getText();
+            String nameItem = null;
+            String price = null;
+            try{
+                nameItem = element.findElement(By.xpath(".//span[@class='result__name']")).getText();
+                price = element.findElement(By.xpath(".//span [contains(@class, 'g-item-data j-item-data')]")).getText();
 
+            }catch (NoSuchElementException e){
+                if(price==null){
+                    price="00.00";
+                }else{
+                    continue;
+                }
+            }
             Item item = new Item(nameItem, price);
             result.add(item);
         }
@@ -34,5 +45,9 @@ public class ItemBlock extends AbstractUIObject {
 
     public ItemBlock(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
+    }
+
+    public List<ExtendedWebElement> getResultItem() {
+        return resultItem;
     }
 }

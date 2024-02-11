@@ -5,11 +5,12 @@ import java.util.Objects;
 public class Item {
 
     private String name;
-    private String price;
+    private Double price;
 
     public Item(String name, String price) {
+        String priceInDoubleFormat = price.replace(" ", "").replace(",", ".");
         this.name = name;
-        this.price = price;
+        this.price = Double.valueOf(priceInDoubleFormat);
     }
 
     public String getName() {
@@ -20,11 +21,11 @@ public class Item {
         this.name = name;
     }
 
-    public String getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
