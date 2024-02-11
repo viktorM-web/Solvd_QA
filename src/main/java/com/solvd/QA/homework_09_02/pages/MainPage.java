@@ -1,8 +1,10 @@
 package com.solvd.QA.homework_09_02.pages;
 
+import com.solvd.QA.homework_09_02.domain.ItemType;
 import com.solvd.QA.homework_09_02.pages.components.AccountWindow;
 import com.solvd.QA.homework_09_02.pages.components.CookiesWindow;
 import com.solvd.QA.homework_09_02.pages.components.LoginWindow;
+import com.solvd.QA.homework_09_02.pages.components.PromoItems;
 import com.zebrunner.carina.utils.config.Configuration;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
@@ -36,6 +38,14 @@ public class MainPage extends AbstractPage {
     @FindBy(xpath = "//*")
     private CookiesWindow cookiesWindow;
 
+    @FindBy(xpath = "//*")
+    private PromoItems promoItem;
+
+    @FindBy(xpath = "//ul [@class='styles_list__PQC5Y']")
+    private ExtendedWebElement bottomElement;
+
+    @FindBy(xpath = "//span [@class='style_upButtonLabel__LPAA4']")
+    private ExtendedWebElement upButton;
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -48,7 +58,11 @@ public class MainPage extends AbstractPage {
         openURL(Configuration.getRequired("home_url"));
     }
 
-    public SearchPage getSearchPageBy(String keyWord){
+    public CategoryPage goToCategoryPageBy(ItemType itemType) {
+        return promoItem.getPageBy(itemType);
+    }
+
+    public SearchPage getSearchPageBy(String keyWord) {
         inputSearchRow.type(keyWord);
         Assert.assertTrue(buttonStartSearchByInputSearchRow.isPresent());
         buttonStartSearchByInputSearchRow.click();
@@ -61,19 +75,19 @@ public class MainPage extends AbstractPage {
         return loginWindow;
     }
 
-    public AccountWindow getAccountWindow(){
+    public AccountWindow getAccountWindow() {
         return accountWindow;
     }
 
     public MainPage logout() {
         if (accountWindow.getLogoutButton().isPresent()) {
-            accountWindow.getLogoutButton().click();;
+            accountWindow.getLogoutButton().click();
             return this;
         }
         return this;
     }
 
-    public MainPage acceptCookies(){
+    public MainPage acceptCookies() {
         cookiesWindow.getAcceptCookiesButton().click();
         return this;
     }
@@ -86,13 +100,21 @@ public class MainPage extends AbstractPage {
         return accountDisplayButton;
     }
 
-    public Optional<ExtendedWebElement> getErrorMassage(){
-        if (loginWindow.getEmailErrorMessage().isPresent()){
+    public Optional<ExtendedWebElement> getErrorMassage() {
+        if (loginWindow.getEmailErrorMessage().isPresent()) {
             return Optional.of(loginWindow.getEmailErrorMessage());
-        }else if (loginWindow.getPassErrorMessage().isPresent()) {
+        } else if (loginWindow.getPassErrorMessage().isPresent()) {
             return Optional.of(loginWindow.getPassErrorMessage());
-        }else{
+        } else {
             return Optional.empty();
         }
+    }
+
+    public boolean isVisibleUpButton(){
+        return upButton.isVisible();
+    }
+
+    public ExtendedWebElement getBottomElement() {
+        return bottomElement;
     }
 }

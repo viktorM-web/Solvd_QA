@@ -1,6 +1,7 @@
 package com.solvd.QA.homework_09_02.pages;
 
 import com.solvd.QA.homework_09_02.domain.Item;
+import com.solvd.QA.homework_09_02.domain.ItemType;
 import com.solvd.QA.homework_09_02.pages.components.ItemBlock;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
@@ -14,6 +15,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class SearchPage extends AbstractPage {
+
+    @FindBy(xpath = "//li[@class='Sstyles_promoItem__aolWq']")
+    private List<ExtendedWebElement> promoItemButtons;
 
     @FindBy(xpath = "//h1[@class='content__header cr-category_header']")
     private ExtendedWebElement resultSearchTitle;
@@ -49,6 +53,4 @@ public class SearchPage extends AbstractPage {
         referenceToItemPage.click();
         return new ItemPage(driver);
     }
-
-
 }

@@ -1,11 +1,11 @@
 package com.solvd.QA.homework_09_02.web;
 
 import com.solvd.QA.homework_09_02.domain.Item;
+import com.solvd.QA.homework_09_02.domain.ItemType;
 import com.solvd.QA.homework_09_02.domain.User;
-import com.solvd.QA.homework_09_02.pages.ItemPage;
-import com.solvd.QA.homework_09_02.pages.MainPage;
-import com.solvd.QA.homework_09_02.pages.SearchPage;
+import com.solvd.QA.homework_09_02.pages.*;
 import com.solvd.QA.homework_09_02.pages.components.LoginWindow;
+import com.solvd.QA.homework_09_02.util.SortUtil;
 import com.zebrunner.carina.core.AbstractTest;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.testng.Assert;
@@ -98,13 +98,86 @@ public class WebTest extends AbstractTest {
 
         Assert.assertEquals(itemFromItemPage, itemFromPageBy,
                 "Item's data from item's page and search page not equals");
-
     }
+
+    @Test
+    public void verifyOpeningSearchPageAndSwitchByItemsCategory() {
+        SoftAssert sa = new SoftAssert();
+        MainPage mainPage = getMainPage();
+
+        Assert.assertTrue(mainPage.isPageOpened());
+
+        CategoryPage categoryPage = mainPage.goToCategoryPageBy(ItemType.REFRIGERATORS);
+        Assert.assertTrue(categoryPage.isPageOpened());
+        List<Item> items = categoryPage.getItems();
+        items.forEach(item -> {
+            Assert.assertTrue(item.getName().toLowerCase().contains(ItemType.REFRIGERATORS.getName()));
+        });
+
+        Assert.assertFalse(categoryPage.isVisibleUpButton());
+        categoryPage.getBottomElement().scrollTo();
+        Assert.assertTrue(categoryPage.isVisibleUpButton());
+
+        categoryPage = categoryPage.switchPageTo(ItemType.MOBILE);
+        Assert.assertTrue(categoryPage.isPageOpened());
+        items = categoryPage.getItems();
+        items.forEach(item -> {
+            Assert.assertTrue(item.getName().toLowerCase().contains(ItemType.MOBILE.getName()) ||
+                              item.getName().toLowerCase().contains("телефон"));
+        });
+
+        Assert.assertFalse(categoryPage.isVisibleUpButton());
+        categoryPage.getBottomElement().scrollTo();
+        Assert.assertTrue(categoryPage.isVisibleUpButton());
+
+        categoryPage = categoryPage.switchPageTo(ItemType.TIRES);
+        Assert.assertTrue(categoryPage.isPageOpened());
+        items = categoryPage.getItems();
+        items.forEach(item -> {
+            Assert.assertTrue(item.getName().toLowerCase().contains(ItemType.TIRES.getName()));
+        });
+
+        Assert.assertFalse(categoryPage.isVisibleUpButton());
+        categoryPage.getBottomElement().scrollTo();
+        Assert.assertTrue(categoryPage.isVisibleUpButton());
+    }
+
+    @Test
+    public void verifySortItems() {
+        SoftAssert sa = new SoftAssert();
+        MainPage mainPage = getMainPage();
+
+        Assert.assertTrue(mainPage.isPageOpened());
+
+        CategoryPage categoryPage = mainPage.goToCategoryPageBy(ItemType.REFRIGERATORS);
+        Assert.assertTrue(categoryPage.isPageOpened());
+        categoryPage = categoryPage.sortItem(Sort.CHEAP);
+        List<Item> actual = categoryPage.getItems();
+        List<Item> expected = SortUtil.sortStartFromCheap(actual);
+
+        Assert.assertEquals(actual, expected);
+
+        categoryPage = categoryPage.sortItem(Sort.EXPENSIVE);
+        actual = categoryPage.getItems();
+        expected = SortUtil.sortStartFromExpensive(actual);
+
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void verifyScrollPagesTest() {
+        MainPage mainPage = getMainPage();
+
+        Assert.assertFalse(mainPage.isVisibleUpButton());
+        mainPage.getBottomElement().scrollTo();
+        Assert.assertTrue(mainPage.isVisibleUpButton());
+    }
+
 
     private MainPage getMainPage() {
         MainPage mainPage = new MainPage(getDriver());
         mainPage.open();
-        Assert.assertTrue(mainPage.isPageOpened(40));
+        Assert.assertTrue(mainPage.isPageOpened());
 
         Assert.assertTrue(mainPage.getCookiesWindow().getAcceptCookiesButton().isPresent());
         mainPage.acceptCookies();
