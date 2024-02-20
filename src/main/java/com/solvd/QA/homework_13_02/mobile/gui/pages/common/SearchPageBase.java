@@ -12,6 +12,8 @@ public abstract class SearchPageBase extends AbstractPage {
         super(driver);
     }
 
+    public abstract ProductListPageBase goToProductListPage();
+
     public abstract OtherPageBase goToOtherPage();
 
     public abstract SearchPageBase closeUnnecessaryWindows();

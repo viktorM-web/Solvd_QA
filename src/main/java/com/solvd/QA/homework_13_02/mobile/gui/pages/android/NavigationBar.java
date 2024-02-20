@@ -9,7 +9,6 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-
 @DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = NavigationBarBase.class)
 public class NavigationBar extends NavigationBarBase {
 
@@ -40,11 +39,13 @@ public class NavigationBar extends NavigationBarBase {
 
     @Override
     public NavigationBar closeUnnecessaryWindows() {
-        if (notAllowNotificationButton.isPresent()) {
-            notAllowNotificationButton.click();
-        }
-        if (closeRecommendationButton.isPresent()) {
-            closeRecommendationButton.click();
+        while (notAllowNotificationButton.isPresent() || closeRecommendationButton.isPresent()) {
+            if (notAllowNotificationButton.isPresent()) {
+                notAllowNotificationButton.click();
+            }
+            if (closeRecommendationButton.isPresent()) {
+                closeRecommendationButton.click();
+            }
         }
         return this;
     }
@@ -61,7 +62,7 @@ public class NavigationBar extends NavigationBarBase {
     }
 
     @Override
-    public List<ExtendedWebElement> getButtonNavigationBar(){
+    public List<ExtendedWebElement> getButtonNavigationBar() {
         return List.of(
                 searchButton,
                 favoritesButton,
@@ -70,5 +71,4 @@ public class NavigationBar extends NavigationBarBase {
                 otherButton
         );
     }
-
 }

@@ -80,7 +80,7 @@ public class LoginPage extends LoginPageBase {
     }
 
     @Override
-    public boolean errorMessageViewPresent(){
+    public boolean errorMessageViewPresent() {
         return errorMessageView.isPresent();
     }
 
