@@ -1,7 +1,9 @@
 package com.solvd.QA.homework_09_02.pages.components;
 
-import com.solvd.QA.homework_09_02.domain.User;
+import com.solvd.QA.homework_09_02.domain.UserDto;
+import com.solvd.QA.homework_09_02.domain.UserType;
 import com.solvd.QA.homework_09_02.pages.MainPage;
+import com.solvd.QA.homework_09_02.util.UserService;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;
@@ -36,9 +38,10 @@ public class LoginWindow extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public MainPage login(User user) {
-        inputNameOrEmail.type(user.getUsername());
-        inputPass.type(user.getPassword());
+    public MainPage login(UserType user) {
+        UserDto userDto = UserService.getUser(user);
+        inputNameOrEmail.type(userDto.getUsername());
+        inputPass.type(userDto.getPassword());
         loginButton.click();
         return new MainPage(driver);
     }

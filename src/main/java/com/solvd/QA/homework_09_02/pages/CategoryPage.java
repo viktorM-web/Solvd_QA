@@ -2,18 +2,17 @@ package com.solvd.QA.homework_09_02.pages;
 
 import com.solvd.QA.homework_09_02.domain.Item;
 import com.solvd.QA.homework_09_02.domain.ItemType;
+import com.solvd.QA.homework_09_02.pages.components.ItemCard;
 import com.solvd.QA.homework_09_02.pages.components.PromoItems;
 import com.solvd.QA.homework_09_02.pages.components.SortSelect;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class CategoryPage extends AbstractPage {
 
@@ -27,13 +26,16 @@ public class CategoryPage extends AbstractPage {
     private PromoItems promoItems;
 
     @FindBy(xpath = "//div [@class='style_product__uOVkK']")
-    private List<ExtendedWebElement> resultItem;
+    private List<ItemCard> itemsCards;
 
     @FindBy(xpath = "//ul [@class='styles_list__PQC5Y']")
     private ExtendedWebElement bottomElement;
 
     @FindBy(xpath = "//span [@class='style_upButtonLabel__LPAA4']")
     private ExtendedWebElement upButton;
+
+    @FindBy(xpath = "//div [@class='popmechanic-close']")
+    private ExtendedWebElement popNotification;
 
     public CategoryPage(WebDriver driver) {
         super(driver);
@@ -47,22 +49,9 @@ public class CategoryPage extends AbstractPage {
 
     public List<Item> getItems() {
         List<Item> result = new LinkedList<>();
-        for (ExtendedWebElement element : resultItem) {
-            String nameItem = null;
-            String price = null;
-            try{
-                nameItem = element.findElement(By.xpath(".//a[@data-testid='card-info-a']")).getText();
-                price = element.findElement(By.xpath(".//p [@data-testid='card-current-price']")).getText().replace("р.", "");
-
-            }catch (NullPointerException | NoSuchElementException e){
-                if(price==null){
-                    price="00.00";
-                }else{
-                    continue;
-                }
-            }
-            Item item = new Item(nameItem, price);
-            result.add(item);
+        for (int i=0; i<itemsCards.size(); i++) {
+//            popNotification.clickIfPresent();
+            result.add(itemsCards.get(i).getItem());
         }
         return result;
     }

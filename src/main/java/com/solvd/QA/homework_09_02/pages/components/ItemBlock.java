@@ -10,12 +10,11 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class ItemBlock extends AbstractUIObject {
 
     @FindBy(xpath = ".//li [contains(@class, 'result__item cr-result__simple')]")
-    private List<ExtendedWebElement> resultItem;
+    private List<ItemCard> itemCards;
 
     public ItemBlock(WebDriver driver) {
         super(driver);
@@ -23,22 +22,8 @@ public class ItemBlock extends AbstractUIObject {
 
     public List<Item> getItems() {
         List<Item> result = new LinkedList<>();
-        for (ExtendedWebElement element : resultItem) {
-            String nameItem = null;
-            String price = null;
-            try{
-                nameItem = element.findElement(By.xpath(".//span[@class='result__name']")).getText();
-                price = element.findElement(By.xpath(".//span [contains(@class, 'g-item-data j-item-data')]")).getText();
-
-            }catch (NoSuchElementException e){
-                if(price==null){
-                    price="00.00";
-                }else{
-                    continue;
-                }
-            }
-            Item item = new Item(nameItem, price);
-            result.add(item);
+        for (ItemCard itemCard : itemCards) {
+            result.add(itemCard.getItem());
         }
         return result;
     }
@@ -47,7 +32,7 @@ public class ItemBlock extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public List<ExtendedWebElement> getResultItem() {
-        return resultItem;
+    public List<ItemCard> getItemCards() {
+        return itemCards;
     }
 }

@@ -2,7 +2,7 @@ package com.solvd.QA.homework_09_02.web;
 
 import com.solvd.QA.homework_09_02.domain.Item;
 import com.solvd.QA.homework_09_02.domain.ItemType;
-import com.solvd.QA.homework_09_02.domain.User;
+import com.solvd.QA.homework_09_02.domain.UserType;
 import com.solvd.QA.homework_09_02.pages.*;
 import com.solvd.QA.homework_09_02.pages.components.LoginWindow;
 import com.solvd.QA.homework_09_02.util.SortUtil;
@@ -28,7 +28,7 @@ public class WebTest extends AbstractTest {
         Assert.assertTrue(loginWindow.getInputNameOrEmail().isPresent());
         Assert.assertTrue(loginWindow.getInputPass().isPresent());
 
-        mainPage = loginWindow.login(User.VALID);
+        mainPage = loginWindow.login(UserType.VALID);
 
         Assert.assertTrue(mainPage.isPageOpened());
         mainPage.getAccountDisplayButton().click();
@@ -56,11 +56,11 @@ public class WebTest extends AbstractTest {
         Assert.assertTrue(loginWindow.getInputNameOrEmail().isPresent());
         Assert.assertTrue(loginWindow.getInputPass().isPresent());
 
-        mainPage = loginWindow.login(User.INVALID_PASS);
+        mainPage = loginWindow.login(UserType.INVALID_PASS);
         Optional<ExtendedWebElement> errorMassage = mainPage.getErrorMassage();
         sa.assertTrue(errorMassage.isPresent(), "Must appear error message");
 
-        mainPage = loginWindow.login(User.INVALID_EMAIL);
+        mainPage = loginWindow.login(UserType.INVALID_EMAIL);
         errorMassage = mainPage.getErrorMassage();
         sa.assertTrue(errorMassage.isPresent(), "Must appear error message");
 
