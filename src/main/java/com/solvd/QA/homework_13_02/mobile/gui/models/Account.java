@@ -7,6 +7,13 @@ public class Account {
     private String email;
     private String pass;
 
+    public Account(String name, String phone, String email, String pass) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.pass = pass;
+    }
+
     public String getName() {
         return name;
     }

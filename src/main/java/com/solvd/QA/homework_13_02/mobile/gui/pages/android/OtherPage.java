@@ -15,7 +15,7 @@ public class OtherPage extends OtherPageBase {
     @FindBy(id = "by.av.client:id/other_toolbar")
     private ExtendedWebElement otherToolbar;
 
-    @FindBy(xpath = "//android.widget.TextView[@text=\"Войти\"]")
+    @FindBy(xpath = "//android.widget.TextView[@text='Войти']")
     private ExtendedWebElement registrationButton;
 
     public OtherPage(WebDriver driver) {

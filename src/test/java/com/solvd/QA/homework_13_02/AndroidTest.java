@@ -5,6 +5,7 @@ import com.solvd.QA.homework_13_02.mobile.gui.models.ProductDto;
 import com.solvd.QA.homework_13_02.mobile.gui.models.Sort;
 import com.solvd.QA.homework_13_02.mobile.gui.pages.android.SearchPage;
 import com.solvd.QA.homework_13_02.mobile.gui.pages.common.*;
+import com.solvd.QA.homework_13_02.mobile.gui.utill.AccountService;
 import com.zebrunner.carina.core.AbstractTest;
 import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
@@ -26,10 +27,8 @@ public class AndroidTest extends AbstractTest {
 
         LoginPageBase loginPageBase = otherPageBase.goToLogin();
 
-        Account account = new Account();
-        account.setName("Тест");
-        account.setPhone("+37529 111 11 11");
-        account.setPass("pass11111111!");
+        Account account = new Account("Тест", "+37529 111 11 11", null, "pass11111111!");
+
 
         ConfirmationPageBase confirmationPageBase = loginPageBase.registration(account);
         softAssert.assertTrue(confirmationPageBase.containsAllFields());
@@ -47,11 +46,7 @@ public class AndroidTest extends AbstractTest {
 
         LoginPageBase loginPageBase = otherPageBase.goToLogin();
 
-        Account account = new Account();
-        account.setPhone(R.TESTDATA.get("valid.login.android.app"));
-        account.setPass(R.TESTDATA.get("valid.pass.android.app"));
-
-        otherPageBase = loginPageBase.login(account);
+        otherPageBase = loginPageBase.login(AccountService.getValidAccount());
         softAssert.assertTrue(otherPageBase.isPageOpened());
         softAssert.assertFalse(otherPageBase.registrationButtonPresent());
         softAssert.assertAll();
@@ -68,11 +63,7 @@ public class AndroidTest extends AbstractTest {
 
         LoginPageBase loginPageBase = otherPageBase.goToLogin();
 
-        Account account = new Account();
-        account.setPhone(R.TESTDATA.get("valid.login.android.app"));
-        account.setPass("pqfe16691!?");
-
-        otherPageBase = loginPageBase.login(account);
+        otherPageBase = loginPageBase.login(AccountService.getInvalidAccount());
         softAssert.assertFalse(otherPageBase.isPageOpened());
         softAssert.assertTrue(loginPageBase.errorMessageViewPresent());
         softAssert.assertAll();

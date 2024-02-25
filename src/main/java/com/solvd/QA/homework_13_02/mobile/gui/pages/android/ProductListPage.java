@@ -17,19 +17,19 @@ import java.util.List;
 @DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = ProductListPageBase.class)
 public class ProductListPage extends ProductListPageBase implements IMobileUtils {
 
-    @FindBy(xpath = "//android.widget.Button[@content-desc=\"Сортировка\"]")
+    @FindBy(xpath = "//android.widget.Button[@content-desc='Сортировка']")
     private ExtendedWebElement sort;
 
-    @FindBy(xpath = "//android.widget.ImageView[@resource-id=\"by.av.client:id/close\"]")
+    @FindBy(xpath = "//android.widget.ImageView[@resource-id='by.av.client:id/close']")
     private ExtendedWebElement closeSortMenu;
 
-    @FindBy(xpath = "//android.widget.RadioButton[@resource-id=\"by.av.client:id/radioButton\"]")
+    @FindBy(xpath = "//android.widget.RadioButton[@resource-id='by.av.client:id/radioButton']")
     private List<ExtendedWebElement> radioButtons;
 
-    @FindBy(xpath = "(//android.view.ViewGroup[@resource-id=\"by.av.client:id/itemListCar\"])[1]")
+    @FindBy(xpath = "(//android.view.ViewGroup[@resource-id='by.av.client:id/itemListCar'])[1]")
     private Product product1;
 
-    @FindBy(xpath = "(//android.view.ViewGroup[@resource-id=\"by.av.client:id/itemListCar\"])[2]")
+    @FindBy(xpath = "(//android.view.ViewGroup[@resource-id='by.av.client:id/itemListCar'])[2]")
     private Product product2;
 
     public ProductListPage(WebDriver driver) {

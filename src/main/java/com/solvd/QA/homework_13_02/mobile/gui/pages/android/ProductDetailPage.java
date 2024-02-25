@@ -11,25 +11,25 @@ import org.openqa.selenium.support.FindBy;
 @DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = ProductDetailPageBase.class)
 public class ProductDetailPage extends ProductDetailPageBase {
 
-    @FindBy(xpath = "//android.view.View[@resource-id=\"by.av.client:id/overlay\"]")
+    @FindBy(xpath = "//android.view.View[@resource-id='by.av.client:id/overlay']")
     private ExtendedWebElement closeRecommendationButton;
 
-    @FindBy(xpath = "//android.widget.Button[@resource-id=\"com.android.permissioncontroller:id/permission_deny_button\"]")
+    @FindBy(xpath = "//android.widget.Button[@resource-id='com.android.permissioncontroller:id/permission_deny_button']")
     private ExtendedWebElement notAllowNotificationButton;
 
-    @FindBy(xpath = "//android.widget.TextView[@resource-id=\"by.av.client:id/name\"]")
+    @FindBy(xpath = "//android.widget.TextView[@resource-id='by.av.client:id/name']")
     private ExtendedWebElement nameProduct;
 
-    @FindBy(xpath = "//android.widget.TextView[@resource-id=\"by.av.client:id/priceByn\"]")
+    @FindBy(xpath = "//android.widget.TextView[@resource-id='by.av.client:id/priceByn']")
     private ExtendedWebElement price;
 
     @FindBy(xpath = "//androidx.recyclerview.widget.RecyclerView[@resource-id=\"by.av.client:id/list\"]/androidx.appcompat.widget.LinearLayoutCompat[3]/android.widget.TextView")
     private ExtendedWebElement description;
 
-    @FindBy(xpath = "//androidx.appcompat.widget.LinearLayoutCompat[@resource-id=\"by.av.client:id/bookmark\"]]")
+    @FindBy(xpath = "//androidx.appcompat.widget.LinearLayoutCompat[@resource-id='by.av.client:id/bookmark']]")
     private ExtendedWebElement bookmark;
 
-    @FindBy(xpath = "//android.widget.ImageButton[@content-desc=\"Перейти вверх\"]")
+    @FindBy(xpath = "//android.widget.ImageButton[@content-desc='Перейти вверх']")
     private ExtendedWebElement backButton;
 
     public ProductDetailPage(WebDriver driver) {
@@ -52,13 +52,7 @@ public class ProductDetailPage extends ProductDetailPageBase {
 
     @Override
     public ProductDetailPage closeUnnecessaryWindows() {
-        while (notAllowNotificationButton.isPresent() || closeRecommendationButton.isPresent()) {
-            if (notAllowNotificationButton.isPresent()) {
-                notAllowNotificationButton.click();
-            }
-            if (closeRecommendationButton.isPresent()) {
-                closeRecommendationButton.click();
-            }
+        while (notAllowNotificationButton.clickIfPresent() || closeRecommendationButton.clickIfPresent()) {
         }
         return this;
     }

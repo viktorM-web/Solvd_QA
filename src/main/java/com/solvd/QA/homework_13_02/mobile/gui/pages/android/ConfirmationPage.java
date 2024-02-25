@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 @DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = ConfirmationPageBase.class)
 public class ConfirmationPage extends ConfirmationPageBase {
 
-    @FindBy(xpath = "//android.widget.EditText[@resource-id=\"by.av.client:id/passwordEditView\"]")
+    @FindBy(xpath = "//android.widget.EditText[@resource-id='by.av.client:id/passwordEditView']")
     private ExtendedWebElement inputCodeFromSms;
 
     public ConfirmationPage(WebDriver driver) {

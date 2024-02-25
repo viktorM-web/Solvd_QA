@@ -12,25 +12,25 @@ import java.util.List;
 @DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = NavigationBarBase.class)
 public class NavigationBar extends NavigationBarBase {
 
-    @FindBy(xpath = "//android.widget.FrameLayout[@content-desc=\"Поиск\"]")
+    @FindBy(xpath = "//android.widget.FrameLayout[@content-desc='Поиск']")
     private ExtendedWebElement searchButton;
 
-    @FindBy(xpath = "//android.widget.FrameLayout[@content-desc=\"Избранное\"]")
+    @FindBy(xpath = "//android.widget.FrameLayout[@content-desc='Избранное']")
     private ExtendedWebElement favoritesButton;
 
-    @FindBy(xpath = "//android.widget.FrameLayout[@content-desc=\"Объявления\"]")
+    @FindBy(xpath = "//android.widget.FrameLayout[@content-desc='Объявления']")
     private ExtendedWebElement postsButton;
 
-    @FindBy(xpath = "//android.widget.FrameLayout[@content-desc=\"Диалоги\"]")
+    @FindBy(xpath = "//android.widget.FrameLayout[@content-desc='Диалоги']")
     private ExtendedWebElement chatsButton;
 
-    @FindBy(xpath = "//android.widget.FrameLayout[@content-desc=\"Прочее\"]")
+    @FindBy(xpath = "//android.widget.FrameLayout[@content-desc='Прочее']")
     private ExtendedWebElement otherButton;
 
-    @FindBy(xpath = "//android.view.View[@resource-id=\"by.av.client:id/overlay\"]")
+    @FindBy(xpath = "//android.view.View[@resource-id='by.av.client:id/overlay']")
     private ExtendedWebElement closeRecommendationButton;
 
-    @FindBy(xpath = "//android.widget.Button[@resource-id=\"com.android.permissioncontroller:id/permission_deny_button\"]")
+    @FindBy(xpath = "//android.widget.Button[@resource-id='com.android.permissioncontroller:id/permission_deny_button']")
     private ExtendedWebElement notAllowNotificationButton;
 
     public NavigationBar(WebDriver driver) {
@@ -39,13 +39,7 @@ public class NavigationBar extends NavigationBarBase {
 
     @Override
     public NavigationBar closeUnnecessaryWindows() {
-        while (notAllowNotificationButton.isPresent() || closeRecommendationButton.isPresent()) {
-            if (notAllowNotificationButton.isPresent()) {
-                notAllowNotificationButton.click();
-            }
-            if (closeRecommendationButton.isPresent()) {
-                closeRecommendationButton.click();
-            }
+        while (notAllowNotificationButton.clickIfPresent() || closeRecommendationButton.clickIfPresent()) {
         }
         return this;
     }

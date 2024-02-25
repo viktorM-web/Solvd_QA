@@ -13,9 +13,9 @@ import org.testng.Assert;
 @DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = LoginPageBase.class)
 public class LoginPage extends LoginPageBase {
 
-    @FindBy(xpath = "//android.widget.LinearLayout[@content-desc=\"Регистрация\"]")
+    @FindBy(xpath = "//android.widget.LinearLayout[@content-desc='Регистрация']")
     private ExtendedWebElement registrationButton;
-    @FindBy(xpath = "//android.widget.LinearLayout[@content-desc=\"Вход\"]")
+    @FindBy(xpath = "//android.widget.LinearLayout[@content-desc='Вход']")
     private ExtendedWebElement enterButton;
     @FindBy(id = "by.av.client:id/nameEditView")
     private ExtendedWebElement inputName;
