@@ -1,0 +1,10 @@
+{
+  "status": "success",
+  "data": {
+    "name": "${employee.name}",
+    "salary": "${employee.salary}",
+    "age": "${employee.age}",
+    "id": "type:Integer"
+  },
+  "message": "Successfully! Record has been added."
+}
