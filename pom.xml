@@ -12,6 +12,9 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <testng.vertion>7.9.0</testng.vertion>
+        <carina-api.vertion>1.2.4</carina-api.vertion>
+        <carina-core.vertion>1.2.6</carina-core.vertion>
         <suite></suite>
     </properties>
 
@@ -19,8 +22,18 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>7.9.0</version>
-            <scope>test</scope>
+            <version>${testng.vertion}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zebrunner</groupId>
+            <artifactId>carina-api</artifactId>
+            <version>${carina-api.vertion}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zebrunner</groupId>
+            <artifactId>carina-core</artifactId>
+            <version>${carina-core.vertion}</version>
         </dependency>
     </dependencies>
 
